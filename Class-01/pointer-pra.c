@@ -1,16 +1,13 @@
 #include <stdio.h>
 
-void push(int *top);
-void pop(int *top);
-void print(int *top);
-
-// 전역변수
-int arr[10] = {0};
-
+void push(int *top, int arr[]);
+void pop(int *top, int arr[]);
+void print(int *top, int arr[]);
 
 int main(void)
 {
   int top = 0;
+  int arr[10] = {0};
 
   int roop = 1;
   printf("----- STACK ----- \n");
@@ -23,9 +20,9 @@ int main(void)
     int input;
     scanf("%d", &input);
 
-    if(input == 1) push(&top);
-    else if (input == 2) pop(&top);
-    else if (input == 3) print(&top);
+    if(input == 1) push(&top, arr);
+    else if (input == 2) pop(&top, arr);
+    else if (input == 3) print(&top, arr);
     else if (input == 4) {
       printf("프로그램 종료"); 
       roop = 0;
@@ -34,7 +31,7 @@ int main(void)
   return 0;
 }
 
-void push(int *top)
+void push(int *top, int arr[])
 {
   if(*top >= 10)
   {
@@ -47,11 +44,11 @@ void push(int *top)
   scanf("%d", &saveNum);
   arr[*top] = saveNum;
   (*top)++;
-  
+
   printf("\n");
 }
 
-void pop(int *top)
+void pop(int *top, int arr[])
 {
   if(top <= 0)
   {
@@ -62,7 +59,7 @@ void pop(int *top)
   printf("마지막 데이터를 스택에서 꺼냈습니다\n\n");
 }
 
-void print(int *top)
+void print(int *top, int arr[])
 {
   if(*top <= 0)
   {
