@@ -1,76 +1,78 @@
 #include <stdio.h>
 
-void push(void);
-void pop(void);
-void print(void);
+void push(int *top);
+void pop(int *top);
+void print(int *top);
 
-// ì „ì—­ë³€ìˆ˜
+// Àü¿ªº¯¼ö
 int arr[10] = {0};
-int top = 0;
+
 
 int main(void)
 {
+  int top = 0;
+
   int roop = 1;
   printf("----- STACK ----- \n");
 
   while (roop)
   {
-    printf("1.push\t2.pop\t3.í™•ì¸\t4.ì¢…ë£Œ\n");
-    printf("ë©”ë‰´ì„ íƒ: ");
+    printf("1.push\t2.pop\t3.È®ÀÎ\t4.Á¾·á\n");
+    printf("¸Ş´º¼±ÅÃ: ");
 
     int input;
     scanf("%d", &input);
 
-    if(input == 1) push();
-    else if (input == 2) pop();
-    else if (input == 3) print();
+    if(input == 1) push(&top);
+    else if (input == 2) pop(&top);
+    else if (input == 3) print(&top);
     else if (input == 4) {
-      printf("í”„ë¡œê·¸ë¨ ì¢…ë£Œ"); 
+      printf("ÇÁ·Î±×·¥ Á¾·á"); 
       roop = 0;
     }
   }
   return 0;
 }
 
-void push(void)
+void push(int *top)
 {
-  if(top >= 10)
+  if(*top >= 10)
   {
-    printf("ìŠ¤íƒì´ ê°€ë“ì°¨ ìˆìŠµë‹ˆë‹¤\n\n");
+    printf("½ºÅÃÀÌ °¡µæÂ÷ ÀÖ½À´Ï´Ù\n\n");
     return;
   }
 
   int saveNum;
-  printf("ì €ì¥í• ë°ì´í„° : ");
+  printf("ÀúÀåÇÒµ¥ÀÌÅÍ : ");
   scanf("%d", &saveNum);
-  arr[top] = saveNum;
-  top++;
+  arr[*top] = saveNum;
+  (*top)++;
   
   printf("\n");
 }
 
-void pop(void)
+void pop(int *top)
 {
   if(top <= 0)
   {
-    printf("êº¼ë‚¼ ë°ì´í„°ê°€ ì—†ìŠµë‹ˆë‹¤.\n\n");
+    printf("²¨³¾ µ¥ÀÌÅÍ°¡ ¾ø½À´Ï´Ù.\n\n");
     return;
   }
-  top--;
-  printf("ë§ˆì§€ë§‰ ë°ì´í„°ë¥¼ ìŠ¤íƒì—ì„œ êº¼ëƒˆìŠµë‹ˆë‹¤\n\n");
+  (*top)--;
+  printf("¸¶Áö¸· µ¥ÀÌÅÍ¸¦ ½ºÅÃ¿¡¼­ ²¨³Â½À´Ï´Ù\n\n");
 }
 
-void print(void)
+void print(int *top)
 {
-  if(top <= 0)
+  if(*top <= 0)
   {
-    printf("ìŠ¤íƒì´ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.\n\n");
+    printf("½ºÅÃÀÌ ºñ¾î ÀÖ½À´Ï´Ù.\n\n");
     return;
   }
 
-  printf("ìŠ¤íƒì—ëŠ”\n");
-  for(int i = 0; i < top; i++){
+  printf("½ºÅÃ¿¡´Â\n");
+  for(int i = 0; i < *top; i++){
     printf("%d ", arr[i]);
   }
-  printf("ì´ ì €ì¥ë˜ì–´ ìˆìŠµë‹ˆë‹¤\n\n");
+  printf("ÀÌ ÀúÀåµÇ¾î ÀÖ½À´Ï´Ù\n\n");
 }
