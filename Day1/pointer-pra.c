@@ -50,7 +50,7 @@ void push(int *top, int arr[])
 
 void pop(int *top, int arr[])
 {
-  if(top <= 0)
+  if(*top <= 0)
   {
     printf("꺼낼 데이터가 없습니다.\n\n");
     return;

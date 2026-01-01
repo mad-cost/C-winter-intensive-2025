@@ -1,7 +1,7 @@
 # C-Winter-intensive-2025
-ðŸ“ ì´ 10íšŒë¡œ ì§„í–‰ë˜ëŠ” ê²¨ìš¸ ë°©í•™ Cì–¸ì–´ íŠ¹ê°• ë‚´ìš© ê¸°ë¡
+? ÃÑ 10È¸·Î ÁøÇàµÇ´Â °Ü¿ï ¹æÇÐ C¾ð¾î Æ¯°­ ³»¿ë ±â·Ï
 
-|ë‚ ì§œ|ë§í¬|ì„¤ëª…|
+|³¯Â¥|¸µÅ©|¼³¸í|
 |------|---|---|
-|`2025-12-29`| [Day1 í•´í”¼ì½”ë”©](https://happy-coding.tistory.com/100) | ë©”ëª¨ë¦¬ ì˜ì—­ 4ê°€ì§€, ë°°ì—´ì„ ì´ìš©í•œ Stack êµ¬í˜„ í”„ë¡œê·¸ëž¨ êµ¬í˜„ |
+|`2025-12-29`| [Day1 ÇØÇÇÄÚµù](https://happy-coding.tistory.com/100) | ¸Þ¸ð¸® ¿µ¿ª 4°¡Áö, ¹è¿­À» ÀÌ¿ëÇÑ Stack ±¸Çö ÇÁ·Î±×·¥ ±¸Çö |
 |`2025-12-31`| 
