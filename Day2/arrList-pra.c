@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-void push(int *top, int arr[]);
-void pop(int *top, int arr[]);
+void inputData(int *top, int arr[]);
+void deleteData(int *top, int arr[]);
 void print(int *top, int arr[]);
 
 int main(void)
@@ -20,8 +20,8 @@ int main(void)
     int input;
     scanf("%d", &input);
 
-    if(input == 1) push(&top, arr);
-    else if (input == 2) pop(&top, arr);
+    if(input == 1) inputData(&top, arr);
+    else if (input == 2) deleteData(&top, arr);
     else if (input == 3) print(&top, arr);
     else if (input == 4) {
       printf("프로그램 종료"); 
@@ -31,7 +31,7 @@ int main(void)
   return 0;
 }
 
-void push(int *top, int arr[])
+void inputData(int *top, int arr[])
 {
   if(*top >= 10)
   {
@@ -48,7 +48,7 @@ void push(int *top, int arr[])
   printf("\n");
 }
 
-void pop(int *top, int arr[])
+void deleteData(int *top, int arr[])
 {
   if(*top <= 0)
   {
