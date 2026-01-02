@@ -20,11 +20,15 @@ int main(void)
     int input;
     scanf("%d", &input);
 
-    if(input == 1) inputData(&top, arr);
-    else if (input == 2) deleteData(&top, arr);
-    else if (input == 3) print(&top, arr);
-    else if (input == 4) {
-      printf("프로그램 종료"); 
+    if (input == 1)
+      inputData(&top, arr);
+    else if (input == 2)
+      deleteData(&top, arr);
+    else if (input == 3)
+      print(&top, arr);
+    else if (input == 4)
+    {
+      printf("프로그램 종료");
       roop = 0;
     }
   }
@@ -33,7 +37,7 @@ int main(void)
 
 void inputData(int *top, int arr[])
 {
-  if(*top >= 10)
+  if (*top >= 10)
   {
     printf("스택이 가득차 있습니다\n\n");
     return;
@@ -50,25 +54,46 @@ void inputData(int *top, int arr[])
 
 void deleteData(int *top, int arr[])
 {
-  if(*top <= 0)
+  int deleteNum;
+  printf("삭제 데이터 입력 : ");
+  scanf("%d", &deleteNum);
+
+  int idx = -1;
+  for (int i = 0; i < *top; i++)
   {
-    printf("꺼낼 데이터가 없습니다.\n\n");
+    if (arr[i] == deleteNum)
+    {
+      idx = i;
+      break;
+    }
+  }
+
+  if (idx == -1)
+  {
+    printf("%d는 List에 존재하지 않습니다. \n\n", deleteNum);
     return;
   }
+
+  for (int j = idx; j < (*top) - 1; j++)
+  {
+    arr[j] = arr[j + 1];
+  }
   (*top)--;
-  printf("마지막 데이터를 스택에서 꺼냈습니다\n\n");
+
+  printf("삭제 완료\n\n");
 }
 
 void print(int *top, int arr[])
 {
-  if(*top <= 0)
+  if (*top <= 0)
   {
     printf("스택이 비어 있습니다.\n\n");
     return;
   }
 
   printf("스택에는\n");
-  for(int i = 0; i < *top; i++){
+  for (int i = 0; i < *top; i++)
+  {
     printf("%d ", arr[i]);
   }
   printf("이 저장되어 있습니다\n\n");
