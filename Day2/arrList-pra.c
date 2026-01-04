@@ -20,12 +20,9 @@ int main(void)
     int input;
     scanf("%d", &input);
 
-    if (input == 1)
-      inputData(&top, arr);
-    else if (input == 2)
-      deleteData(&top, arr);
-    else if (input == 3)
-      print(&top, arr);
+    if (input == 1) inputData(&top, arr);
+    else if (input == 2) deleteData(&top, arr);
+    else if (input == 3) print(&top, arr);
     else if (input == 4)
     {
       printf("프로그램 종료");
@@ -46,9 +43,19 @@ void inputData(int *top, int arr[])
   int saveNum;
   printf("저장할데이터 : ");
   scanf("%d", &saveNum);
-  arr[*top] = saveNum;
-  (*top)++;
 
+  int idx = 0;
+  while (idx < *top && arr[idx] <= saveNum) {
+    idx++;
+  }
+  // 뒤로 1 칸씩 밀어주는 로직
+  for (int i = *top; i> idx; i--){
+    arr[i] = arr[i-1];
+  }
+  // 해당 위치에 삽입
+  arr[idx] = saveNum;
+  
+  (*top)++;
   printf("\n");
 }
 
