@@ -1,26 +1,32 @@
 #include <stdio.h>
+#include <stdlib.h> // malloc(), free()
+
+typedef struct node
+{
+  struct node *nowAdd;
+  int data;
+  struct node *nextAdd;
+} node;
 
 int inputData();
-void insertData(int *top, int arr[]);
+void insertData(node *head);
 void deleteData(int *top, int arr[]);
 void print(int *top, int arr[]);
 
 int main(void)
 {
-  int top = 0;
-  int arr[10] = {0};
+  node *head = (node *)malloc(sizeof *head);
+  head->nextAdd = NULL;
 
   int roop = 1;
-
   while (roop)
   {
     int result = inputData();
-    if (result == 1)
-      insertData(&top, arr);
-    else if (result == 2)
-      deleteData(&top, arr);
-    else if (result == 3)
-      print(&top, arr);
+    if (result == 1) insertData(head);
+    // else if (result == 2)
+    //   deleteData(&top, arr);
+    // else if (result == 3)
+    //   print(&top, arr);
     else if (result == 4)
     {
       printf("프로그램 종료");
@@ -39,36 +45,28 @@ int inputData()
   int input;
   scanf("%d", &input);
 
+
   return input;
 }
 
-void insertData(int *top, int arr[])
+void insertData(node *head)
 {
-  if (*top >= 10)
-  {
-    printf("스택이 가득차 있습니다\n\n");
-    return;
-  }
+    int saveNum;
+    printf("저장할데이터 : ");
+    scanf("%d", &saveNum);
 
-  int saveNum;
-  printf("저장할데이터 : ");
-  scanf("%d", &saveNum);
+    node *newNode = malloc(sizeof *newNode);
+    newNode->nowAdd = newNode;
+    newNode->data = saveNum;
+    newNode->nextAdd = NULL;
 
-  int idx = 0;
-  while (idx < *top && arr[idx] <= saveNum)
-  {
-    idx++;
-  }
-  // 뒤로 1 칸씩 밀어주는 로직
-  for (int i = *top; i > idx; i--)
-  {
-    arr[i] = arr[i - 1];
-  }
-  // 해당 위치에 삽입
-  arr[idx] = saveNum;
-
-  (*top)++;
-  printf("\n");
+    node *temp = head;
+    while (temp->nextAdd != NULL && temp->nextAdd->data < saveNum) {
+        temp = temp->nextAdd;
+    }
+    newNode->nextAdd = temp->nextAdd;
+    temp->nextAdd = newNode;
+    printf("\n");
 }
 
 void deleteData(int *top, int arr[])
