@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-void inputData(int *top, int arr[]);
+int inputData();
+void insertData(int *top, int arr[]);
 void deleteData(int *top, int arr[]);
 void print(int *top, int arr[]);
 
@@ -10,20 +11,17 @@ int main(void)
   int arr[10] = {0};
 
   int roop = 1;
-  printf("----- STACK ----- \n");
 
   while (roop)
   {
-    printf("1.입력\t2.삭제\t3.확인\t4.종료\n");
-    printf("메뉴선택: ");
-
-    int input;
-    scanf("%d", &input);
-
-    if (input == 1) inputData(&top, arr);
-    else if (input == 2) deleteData(&top, arr);
-    else if (input == 3) print(&top, arr);
-    else if (input == 4)
+    int result = inputData();
+    if (result == 1)
+      insertData(&top, arr);
+    else if (result == 2)
+      deleteData(&top, arr);
+    else if (result == 3)
+      print(&top, arr);
+    else if (result == 4)
     {
       printf("프로그램 종료");
       roop = 0;
@@ -32,7 +30,19 @@ int main(void)
   return 0;
 }
 
-void inputData(int *top, int arr[])
+int inputData()
+{
+  printf("----- STACK ----- \n");
+  printf("1.입력\t2.삭제\t3.확인\t4.종료\n");
+  printf("메뉴선택: ");
+
+  int input;
+  scanf("%d", &input);
+
+  return input;
+}
+
+void insertData(int *top, int arr[])
 {
   if (*top >= 10)
   {
@@ -45,16 +55,18 @@ void inputData(int *top, int arr[])
   scanf("%d", &saveNum);
 
   int idx = 0;
-  while (idx < *top && arr[idx] <= saveNum) {
+  while (idx < *top && arr[idx] <= saveNum)
+  {
     idx++;
   }
   // 뒤로 1 칸씩 밀어주는 로직
-  for (int i = *top; i> idx; i--){
-    arr[i] = arr[i-1];
+  for (int i = *top; i > idx; i--)
+  {
+    arr[i] = arr[i - 1];
   }
   // 해당 위치에 삽입
   arr[idx] = saveNum;
-  
+
   (*top)++;
   printf("\n");
 }
