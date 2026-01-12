@@ -11,7 +11,8 @@ typedef struct node
 int inputData();
 void insertData(node *head);
 void deleteData(int *top, int arr[]);
-void print(int *top, int arr[]);
+void printData(node *head);
+void freeList(node *head);
 
 int main(void)
 {
@@ -22,10 +23,12 @@ int main(void)
   while (roop)
   {
     int result = inputData();
-    if (result == 1) insertData(head);
+    if (result == 1)
+      insertData(head);
     // else if (result == 2)
     //   deleteData(&top, arr);
-    // else if (result == 3)
+    else if (result == 3)
+      printData(head);
     //   print(&top, arr);
     else if (result == 4)
     {
@@ -33,6 +36,7 @@ int main(void)
       roop = 0;
     }
   }
+  freeList(head);
   return 0;
 }
 
@@ -45,28 +49,28 @@ int inputData()
   int input;
   scanf("%d", &input);
 
-
   return input;
 }
 
 void insertData(node *head)
 {
-    int saveNum;
-    printf("저장할데이터 : ");
-    scanf("%d", &saveNum);
+  int saveNum;
+  printf("저장할데이터 : ");
+  scanf("%d", &saveNum);
 
-    node *newNode = malloc(sizeof *newNode);
-    newNode->nowAdd = newNode;
-    newNode->data = saveNum;
-    newNode->nextAdd = NULL;
+  node *newNode = malloc(sizeof *newNode);
+  newNode->nowAdd = newNode;
+  newNode->data = saveNum;
+  newNode->nextAdd = NULL;
 
-    node *temp = head;
-    while (temp->nextAdd != NULL && temp->nextAdd->data < saveNum) {
-        temp = temp->nextAdd;
-    }
-    newNode->nextAdd = temp->nextAdd;
-    temp->nextAdd = newNode;
-    printf("\n");
+  node *temp = head;
+  while (temp->nextAdd != NULL && temp->nextAdd->data < saveNum)
+  {
+    temp = temp->nextAdd;
+  }
+  newNode->nextAdd = temp->nextAdd;
+  temp->nextAdd = newNode;
+  printf("\n");
 }
 
 void deleteData(int *top, int arr[])
@@ -100,18 +104,37 @@ void deleteData(int *top, int arr[])
   printf("삭제 완료\n\n");
 }
 
-void print(int *top, int arr[])
+void printData(node *head)
 {
-  if (*top <= 0)
+  if (head->nextAdd == NULL)
   {
-    printf("스택이 비어 있습니다.\n\n");
+    printf("head is NULL \n\n");
     return;
   }
 
-  printf("스택에는\n");
-  for (int i = 0; i < *top; i++)
+  node *temp = head->nextAdd;
+  while (temp != NULL)
   {
-    printf("%d ", arr[i]);
+    printf("(%p) %d (%p)", temp->nowAdd, temp->data, temp->nextAdd);
+    if (temp->nextAdd != NULL)
+    {
+      printf(" - ");
+    }
+    temp = temp->nextAdd;
   }
-  printf("이 저장되어 있습니다\n\n");
+  printf("\n\n");
+}
+
+void freeList(node *head)
+{
+  node *temp = head->nextAdd;
+
+  while (temp != NULL)
+  {
+    node *next = temp->nextAdd;
+    free(temp);
+    temp = next;
+  }
+  free(temp);
+  free(head);
 }
