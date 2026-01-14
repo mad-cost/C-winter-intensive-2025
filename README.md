@@ -5,3 +5,4 @@
 |------|---|---|
 |`2025-12-29`| [Day1 해피코딩](https://happy-coding.tistory.com/100) | 메모리 영역 4가지, 배열을 이용한 Stack 구현 프로그램 구현 |
 |`2025-12-31`| [Day2 해피코딩](https://happy-coding.tistory.com/101) | Stack -> arrayList로 확장 |
+|`2025-01-05`| [Day3 해피코딩](https://happy-coding.tistory.com/102) | LinkedList 입력/출력 구현 |
