@@ -29,7 +29,6 @@ int main(void)
     //   deleteData(&top, arr);
     else if (result == 3)
       printData(head);
-    //   print(&top, arr);
     else if (result == 4)
     {
       printf("프로그램 종료");
