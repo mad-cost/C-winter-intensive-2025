@@ -42,7 +42,7 @@ int main(void)
 
 int inputData()
 {
-  printf("----- STACK ----- \n");
+  printf("----- LinkedList ----- \n");
   printf("1.입력\t2.삭제\t3.확인\t4.종료\n");
   printf("메뉴선택: ");
 
