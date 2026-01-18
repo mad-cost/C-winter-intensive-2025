@@ -13,21 +13,44 @@ int main(void)
   int resultTop = 0;
   int stackTop = -1;
 
-  printf("수식 입력: ");
+  printf("수식 입력: "); // (A+B)*C -> AB+C*
   scanf("%s", input);
 
   for (int i = 0; input[i] != '\0'; i++)
   {
     char inputData = input[i];
+    // 1) 여는 괄호 '(' 처리
+    if (inputData == '(')
+    {
+      stack[++stackTop] = inputData;
+      continue;
+    }
+
+    // 2) 닫는 괄호 ')' 처리
+    if (inputData == ')')
+    {
+      while (stackTop != -1 && stack[stackTop] != '(')
+      {
+        result[resultTop++] = stack[stackTop--];
+      }
+      // 남아있는 '(' 제거
+      if (stackTop != -1 && stack[stackTop] == '(')
+        stackTop--;
+      continue;
+    }
+
     int checkedData = checkOperand(inputData);
 
-    if (checkedData == 3) // 피연산자 배열에 저장
+    if (checkedData == 3) // 피연산자
     {
       result[resultTop++] = inputData;
-    }    
-    else // 연산자 처리
+    }
+    else // 연산자
     {
-      while (stackTop != -1 && checkOperand(stack[stackTop]) >= checkedData) // 스택이 비어있지 않고, 2>=1이면
+      // '(' 는 우선순위 비교에서 경계 역할: '(' 위로는 pop하지 않음
+      while (stackTop != -1 &&
+            stack[stackTop] != '(' &&
+            checkOperand(stack[stackTop]) >= checkedData)
       {
         result[resultTop++] = stack[stackTop--];
       }
@@ -35,12 +58,15 @@ int main(void)
     }
   }
 
-  while (stackTop != -1) // 연산자 처리
+  // 남은 연산자 pop (괄호는 버림)
+  while (stackTop != -1)
   {
-    result[resultTop++] = stack[stackTop--];
+    if (stack[stackTop] != '(')
+      result[resultTop++] = stack[stackTop];
+    stackTop--;
   }
 
-  result[resultTop] = '\0'; // 널 종료 문자 추가
+  result[resultTop] = '\0';
   printf("postFix 출력: %s\n", result);
   return 0;
 }
