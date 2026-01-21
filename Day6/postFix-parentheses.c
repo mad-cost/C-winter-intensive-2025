@@ -3,9 +3,9 @@
 #define SIZE 20
 
 int checkOperand(char inputdata);
-int openParenthese(char inputData, char stack[], int *stackTop);
-int closeParenthese(char inputData, char result[], int *resultTop, char stack[], int *stackTop);
-int handleOperatorOrOperand(char inputData, char result[], int *resultTop, char stack[],  int *stackTop);
+int openParenthese(char inputData, char stack[], int *stackTop, int *parent);
+int closeParenthese(char inputData, char result[], int *resultTop, char stack[], int *stackTop, int *parent);
+int handleOperatorOrOperand(char inputData, char result[], int *resultTop, char stack[], int *stackTop);
 void printResult(char result[], int *resultTop, char stack[], int *stackTop);
 
 int main(void)
@@ -16,6 +16,7 @@ int main(void)
 
   int resultTop = 0;
   int stackTop = -1;
+  int parent = 0;
 
   printf("수식 입력: ");
   scanf("%s", input);
@@ -23,9 +24,15 @@ int main(void)
   for (int i = 0; input[i] != '\0'; i++)
   {
     char inputData = input[i];
-    if (openParenthese(inputData, stack, &stackTop)) continue;
-    if (closeParenthese(inputData, result, &resultTop, stack, &stackTop)) continue;
-
+    if (openParenthese(inputData, stack, &stackTop, &parent)) continue;
+    
+    int checkParent = closeParenthese(inputData, result, &resultTop, stack, &stackTop, &parent);
+      if (checkParent == 2) continue;
+      if (checkParent == -1)
+      {
+        printf("괄호검사: 불합격");
+        return 1;
+      }
     handleOperatorOrOperand(inputData, result, &resultTop, stack, &stackTop);
   }
   printResult(result, &resultTop, stack, &stackTop);
@@ -39,48 +46,52 @@ int checkOperand(char inputdata)
   else if (inputdata == '*' || inputdata == '/')
     return 2;
   else
-    return 3; // 피연산자
+    return 3;
 }
 
-int openParenthese(char inputData, char stack[], int *stackTop)
+int openParenthese(char inputData, char stack[], int *stackTop, int *parent)
 {
   if (inputData == '(')
   {
     stack[++(*stackTop)] = '(';
-    return 2; // main에서 continue 하기 위해 (return 1은 에러를 표기하는 걸로 오해할까봐 2를 사용하였음)
+    (*parent++);
+    return 2;
   }
   return 0;
 }
 
-int closeParenthese(char inputData, char result[], int *resultTop, char stack[], int *stackTop)
+int closeParenthese(char inputData, char result[], int *resultTop, char stack[], int *stackTop, int *parent)
 {
-  if (inputData == ')')
-  {
-    while (*stackTop != -1 && stack[*stackTop] != '(')
-    {
-      result[(*resultTop)++] = stack[(*stackTop)--];
-    }
+  if (inputData != ')')
+    return 0; // ')'가 아닌 경우 처리안함
 
-    // 남아있는 '(' 제거
-    if (*stackTop != -1 && stack[*stackTop] == '(')
-      (*stackTop)--;
+  // ')'의 개수가 안 맞는 경우 return -1;
+  (*parent)--;
+  if (*parent == -1) return -1; // ex: )AB+C(
 
-    return 2; // 처리 완료(main에서 continue용)
-  }
-  return 0; // 처리 안 함
+  // ')'가 맞는 경우
+  while (*stackTop != -1 && stack[*stackTop] != '(')
+    result[(*resultTop)++] = stack[(*stackTop)--];
+
+  // 스택에 '('가 없다면 매칭 실패(불합격)
+  if (*stackTop == -1)
+    return -1; // 닫는 괄호가 더 많음
+
+  (*stackTop)--;  // '(' 제거
+  return 2;
 }
 
-int handleOperatorOrOperand(char inputData, char result[], int *resultTop, char stack[],  int *stackTop)
+int handleOperatorOrOperand(char inputData, char result[], int *resultTop, char stack[], int *stackTop)
 {
   int checkedData = checkOperand(inputData);
 
-  if (checkedData == 3) // 피연산자 처리
+  if (checkedData == 3)
   {
     result[(*resultTop)++] = inputData;
-    return 2; // 처리 완료
+    return 2;
   }
 
-  // 연산자 처리
+
   while (*stackTop != -1 &&
           stack[*stackTop] != '(' &&
           checkOperand(stack[*stackTop]) >= checkedData)
@@ -88,13 +99,11 @@ int handleOperatorOrOperand(char inputData, char result[], int *resultTop, char 
     result[(*resultTop)++] = stack[(*stackTop)--];
   }
   stack[++(*stackTop)] = inputData;
-  return 2; // 처리 완료
+  return 2; 
 }
-
 
 void printResult(char result[], int *resultTop, char stack[], int *stackTop)
 {
-  // 남은 연산자 출력 '(' 괄호는 버림
   while (*stackTop != -1)
   {
     if (stack[*stackTop] != '(')
@@ -102,5 +111,6 @@ void printResult(char result[], int *resultTop, char stack[], int *stackTop)
     (*stackTop)--;
   }
   result[*resultTop] = '\0';
+  printf("괄호 검사: 합격\n");
   printf("postFix 출력: %s\n", result);
 }
